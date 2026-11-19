@@ -5,12 +5,13 @@
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
 
-const SDL_Color BLACK = {0, 0, 0, 1};
-const SDL_Color WHITE = {255, 255, 255, 1};
+const SDL_Color BLACK = {0, 0, 0, 255};
+const SDL_Color WHITE = {255, 255, 255, 255};
 
 SDL_Color color_list[] = {BLACK, WHITE};
 int current_color = 0;
 int exit_code = 0;
+int i = 0;
 
 static inline void set_render_color(SDL_Renderer* rend, SDL_Color* color) {
     SDL_SetRenderDrawColor(
@@ -22,13 +23,16 @@ static inline void set_render_color(SDL_Renderer* rend, SDL_Color* color) {
     );
 }
 
-int main(void){
+int main(void) {
+    SDL_Window* window = NULL;
+    SDL_Renderer* rend = NULL;
+
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         fprintf(stderr, "fatal: Couldn't initialize video framework");
         return 1;
     }
 
-    SDL_Window* window = SDL_CreateWindow(
+    window = SDL_CreateWindow(
         "TIC-TAC-TOE",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
@@ -42,7 +46,7 @@ int main(void){
         goto terminate;
     }
 
-    SDL_Renderer* rend = SDL_CreateRenderer(
+    rend = SDL_CreateRenderer(
         window,
         -1,
         SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
@@ -77,7 +81,8 @@ int main(void){
 
         set_render_color(rend, &color_list[current_color]);
         SDL_RenderClear(rend);
-
+        
+        SDL_Log("%d", i++);
         // there goes your work...............
 
         SDL_RenderPresent(rend);
